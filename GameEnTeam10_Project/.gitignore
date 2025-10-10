@@ -1,0 +1,27 @@
+# Unreal Engine 기본 무시 폴더
+/Binaries/
+/DerivedDataCache/
+/Intermediate/
+/Saved/Autosaves/
+/Saved/Backup/
+/Saved/Config/CrashReportClient
+/Saved/Logs/
+/.vs/
+/Build/
+
+
+# IDE 설정
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# 빌드 산출물
+*.pdb
+*.obj
+*.exe
+*.dll
+*.app
+*.dylib
