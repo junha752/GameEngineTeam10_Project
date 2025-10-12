@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
 	"FileVersion": 3,
 	"EngineAssociation": "5.6",
 	"Category": "",
@@ -19,4 +20,34 @@
 			"Name": "ModelingToolsEditorMode",
 			"Enabled": true
 		}	]
+=======
+  "FileVersion": 3,
+  "EngineAssociation": "5.6",
+  "Category": "",
+  "Description": "",
+  "Modules": [
+    {
+      "Name": "GameEnTeam10_Project",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "ModelingToolsEditorMode",
+      "Enabled": true
+    },
+    {
+      "Name": "VisualStudioTools",
+      "Enabled": true,
+      "SupportedTargetPlatforms": [
+        "Win64"
+      ]
+    }
+  ],
+  "TargetPlatforms": [],
+  "AdditionalRootDirectories": [],
+  "AdditionalPluginDirectories": [],
+  "EpicSampleNameHash": ""
+>>>>>>> Stashed changes
 }
