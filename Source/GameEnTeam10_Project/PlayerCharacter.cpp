@@ -193,7 +193,7 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
-	if (GetController() != nullptr)
+	if (GetController() != nullptr && !isLockOn)
 	{
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
@@ -205,7 +205,7 @@ void APlayerCharacter::MouseLook(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
-	if (GetController() != nullptr)
+	if (GetController() != nullptr && !isLockOn)
 	{
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
@@ -293,6 +293,7 @@ void APlayerCharacter::GetDamaged(float AttackPoints) {
 	if (HealthPoints <= 0)
 	{
 		isDead = true;
+		Dead();
 	}
 	else {
 		animInst->PlayDamageMontage();
@@ -315,5 +316,6 @@ void APlayerCharacter::StopDash() {
 	}
 }
 void APlayerCharacter::Dead() {
-	;
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 }

@@ -24,7 +24,8 @@ void ATargetLockActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (TargetActor)
 	{
-		this->AttachToActor(TargetActor, FAttachmentTransformRules::KeepWorldTransform, FName(TEXT("LockOn")));
+		USkeletalMeshComponent* TargetSkeletalMesh = TargetActor->FindComponentByClass<USkeletalMeshComponent>();
+		this->AttachToComponent(TargetSkeletalMesh, FAttachmentTransformRules::KeepWorldTransform, FName(TEXT("LockOn")));
 	}
 }
 
