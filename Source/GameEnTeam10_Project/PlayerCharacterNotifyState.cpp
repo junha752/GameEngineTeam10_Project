@@ -17,8 +17,8 @@ void UPlayerCharacterNotifyState::NotifyTick(USkeletalMeshComponent* MeshComp, U
 	Super::NotifyTick(MeshComp, Animation, DeltaTime, EventReference);
 
 	APlayerCharacter* Character = Cast<APlayerCharacter>(MeshComp->GetOwner());
-	if (Character) {
-		FVector StartLocation = Character->SwordStart->GetComponentLocation();
+	if (Character != nullptr &&  Character->SwordStart != nullptr && Character->SwordEnd != nullptr)
+	{FVector StartLocation = Character->SwordStart->GetComponentLocation();
 		FVector EndLocation = Character->SwordEnd->GetComponentLocation();
 		TArray<AActor*> ActorsIgnore;
 		ActorsIgnore.Add(Character);

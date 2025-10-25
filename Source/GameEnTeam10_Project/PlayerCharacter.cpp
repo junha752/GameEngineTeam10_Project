@@ -86,6 +86,11 @@ APlayerCharacter::APlayerCharacter()
 	if (DASH_ACTION.Object) {
 		DashAction = DASH_ACTION.Object;
 	}
+	static ConstructorHelpers::FObjectFinder<UInputAction>
+		WEAPONE_CHANGE_ACTION(TEXT("/ Script / EnhancedInput.InputAction'/Game/Input/Action/IA_WeaponChange.IA_WeaponChange' "));
+	if (WEAPONE_CHANGE_ACTION.Object) {
+		WeaponChangeAction = WEAPONE_CHANGE_ACTION.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -104,6 +109,15 @@ void APlayerCharacter::BeginPlay()
 	GetCharacterMovement()->PushForceFactor = 0.f;
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+
+	CurrentWeapon = EPlayerWeapon::Axe;
+	CurrentWeaponAnims = nullptr;
+	if (WeaponAnimationData != nullptr) {
+		FWeaponAnimStruct* FoundRow = WeaponAnimationData->FindRow<FWeaponAnimStruct>(FName(TEXT("Axe")), TEXT("Axe finding.."));
+		if (FoundRow != nullptr) {
+			CurrentWeaponAnims = FoundRow;
+		}
+	}
 }
 
 // Called every frame
@@ -167,6 +181,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EnhancedInputComponent->BindAction(LockAction, ETriggerEvent::Started, this, &APlayerCharacter::Lock);
 		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Started, this, &APlayerCharacter::StartDash);
 		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Completed, this, &APlayerCharacter::StopDash);
+		EnhancedInputComponent->BindAction(WeaponChangeAction, ETriggerEvent::Started, this, &APlayerCharacter::WeaponChange);
 	}
 
 }
@@ -216,25 +231,25 @@ void APlayerCharacter::MouseLook(const FInputActionValue& Value)
 void APlayerCharacter::W_Attack_R(const FInputActionValue& Value) {
 	if (Stamina < 50) { return; }
 	auto animInst = Cast<UPlayerCharacterAnimInstance>(GetMesh()->GetAnimInstance());
-	animInst->PlayW_Attack_R_Montage();
+	animInst->PlayAttackMontage_1();
 }
 
 void APlayerCharacter::S_Attack_R(const FInputActionValue& Value) {
 	if (Stamina < 50) { return; }
 	auto animInst = Cast<UPlayerCharacterAnimInstance>(GetMesh()->GetAnimInstance());
-	animInst->PlayS_Attack_R_Montage();
+	animInst->PlayAttackMontage_2();
 }
 
 void APlayerCharacter::W_Attack_L(const FInputActionValue& Value) {
 	if (Stamina < 50) { return; }
 	auto animInst = Cast<UPlayerCharacterAnimInstance>(GetMesh()->GetAnimInstance());
-	animInst->PlayW_Attack_L_Montage();
+	animInst->PlayAttackMontage_3();
 }
 
 void APlayerCharacter::S_Attack_L(const FInputActionValue& Value) {
 	if (Stamina < 50) { return; }
 	auto animInst = Cast<UPlayerCharacterAnimInstance>(GetMesh()->GetAnimInstance());
-	animInst->PlayS_Attack_L_Montage();
+	animInst->PlayAttackMontage_4();
 }
 
 void APlayerCharacter::Dodge(const FInputActionValue& Value) {
@@ -284,6 +299,44 @@ void APlayerCharacter::Lock(const FInputActionValue& Value) {
 	}
 }
 
+void APlayerCharacter::WeaponChange(const FInputActionValue& Value) {
+	if (CurrentWeapon == EPlayerWeapon::Axe) { 
+		auto animInst = Cast<UPlayerCharacterAnimInstance>(GetMesh()->GetAnimInstance());
+		animInst->PlayWeaponChangeMontageStart();
+		CurrentWeapon = EPlayerWeapon::GreatSword; 
+		CurrentWeaponAnims = nullptr;
+		if (WeaponAnimationData != nullptr) {
+			FWeaponAnimStruct* FoundRow = WeaponAnimationData->FindRow<FWeaponAnimStruct>(FName(TEXT("GreatSword")), TEXT("GreatSword finding.."));
+			if (FoundRow != nullptr) {
+				CurrentWeaponAnims = FoundRow;
+			}
+		}
+	}
+	else if (CurrentWeapon == EPlayerWeapon::GreatSword) { 
+		auto animInst = Cast<UPlayerCharacterAnimInstance>(GetMesh()->GetAnimInstance());
+		animInst->PlayWeaponChangeMontageStart();
+		CurrentWeapon = EPlayerWeapon::SwordShield; 
+		CurrentWeaponAnims = nullptr;
+		if (WeaponAnimationData != nullptr) {
+			FWeaponAnimStruct* FoundRow = WeaponAnimationData->FindRow<FWeaponAnimStruct>(FName(TEXT("SwordShield")), TEXT("SwordShield finding.."));
+			if (FoundRow != nullptr) {
+				CurrentWeaponAnims = FoundRow;
+			}
+		}
+	}
+	else if (CurrentWeapon == EPlayerWeapon::SwordShield) { 
+		auto animInst = Cast<UPlayerCharacterAnimInstance>(GetMesh()->GetAnimInstance());
+		animInst->PlayWeaponChangeMontageStart();
+		CurrentWeapon = EPlayerWeapon::Axe; 
+		CurrentWeaponAnims = nullptr;
+		if (WeaponAnimationData != nullptr) {
+			FWeaponAnimStruct* FoundRow = WeaponAnimationData->FindRow<FWeaponAnimStruct>(FName(TEXT("Axe")), TEXT("Axe finding.."));
+			if (FoundRow != nullptr) {
+				CurrentWeaponAnims = FoundRow;
+			}
+		}
+	}
+}
 void APlayerCharacter::GetDamaged(float AttackPoints) {
 	HealthPoints -= 10.f * AttackPoints / Armer;
 	if (GEngine) {
@@ -299,6 +352,7 @@ void APlayerCharacter::GetDamaged(float AttackPoints) {
 		animInst->PlayDamageMontage();
 	}
 }
+
 
 void APlayerCharacter::StartDash() {
 	if (GetCharacterMovement() && Stamina > 30.f) {
@@ -319,3 +373,4 @@ void APlayerCharacter::Dead() {
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 }
+

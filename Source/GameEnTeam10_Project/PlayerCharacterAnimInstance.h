@@ -20,25 +20,17 @@ public:
 	float Speed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Params")
 	float Direction = 0;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
-	UAnimMontage* S_AttackMontage_R;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
-	UAnimMontage* S_AttackMontage_L;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
-	UAnimMontage* W_AttackMontage_R;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
-	UAnimMontage* W_AttackMontage_L;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 	UAnimMontage* DodgeMontage;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
-	UAnimMontage* DamageMontage;
+
 	void PlayDodgeMontage();
-	void PlayW_Attack_L_Montage();
-	void PlayS_Attack_L_Montage();
-	void PlayW_Attack_R_Montage();
-	void PlayS_Attack_R_Montage();
+	void PlayAttackMontage_1();
+	void PlayAttackMontage_2();
+	void PlayAttackMontage_3();
+	void PlayAttackMontage_4();
 	void PlayDamageMontage();
+	void PlayWeaponChangeMontageStart();
+	void PlayWeaponChangeMontageEnd();
 
 	UFUNCTION(BlueprintCallable, Category = "Animation")
 	void SetisMontagePlayingfalse();
