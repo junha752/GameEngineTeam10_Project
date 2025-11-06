@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/WidgetComponent.h"
 #include "TargetLockActor.generated.h"
 
 UCLASS()
@@ -28,5 +29,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lock")
 	AActor* TargetActor;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lock")
+	UWidgetComponent* LockOnWidgetComponent;
 };

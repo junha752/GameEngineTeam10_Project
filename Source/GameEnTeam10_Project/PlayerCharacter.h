@@ -7,13 +7,20 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "MyActorSpawner.h"
+#include "WeaponAnimStruct.h"
 #include "PlayerCharacter.generated.h"
 class UInputAction;
 struct FInputActionValue;
 class AMyActorSpawner;
 class UAnimMontage;
-UCLASS()
+UENUM(BlueprintType)
+enum class EPlayerWeapon : uint8 {
+	Axe,
+	GreatSword,
+	SwordShield
+};
 
+UCLASS()
 class GAMEENTEAM10_PROJECT_API APlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
@@ -22,6 +29,13 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
+	UDataTable* WeaponAnimationData;
+	
+	FWeaponAnimStruct* CurrentWeaponAnims;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	EPlayerWeapon CurrentWeapon;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Params")
 	float HealthPoints = 500;
@@ -86,6 +100,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* DashAction;
 
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* WeaponChangeAction;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lock")
 	float LockTraceDistance;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lock")
@@ -107,6 +125,7 @@ protected:
 	void Dodge(const FInputActionValue& Value);
 	void Lock(const FInputActionValue& Value);
 	void MouseLook(const FInputActionValue& Value);
+	void WeaponChange(const FInputActionValue& Value);
 
 public:	
 	// Called every frame

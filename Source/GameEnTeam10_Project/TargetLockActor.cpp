@@ -8,7 +8,9 @@ ATargetLockActor::ATargetLockActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	LockOnWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("LockOnWidgetComponent");
+	LockOnWidgetComponent->SetupAttachment(RootComponent);
+	static ConstructorHelpers::FClassFinder<UUserWidget> LOCKON_WIDGET_BP(TEXT("/Game/ThirdPerson/Blueprints"));
 }
 
 // Called when the game starts or when spawned

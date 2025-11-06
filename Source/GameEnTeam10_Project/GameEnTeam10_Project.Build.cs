@@ -8,11 +8,22 @@ public class GameEnTeam10_Project : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
+// GameEnTeam10_Project.Build.cs
+PublicDependencyModuleNames.AddRange(new string[] { 
+    "Core", 
+    "CoreUObject", 
+    "Engine", 
+    "InputCore",
+    // UMG(위젯) 기능을 사용하기 위해 아래 모듈들을 추가합니다.
+    "UMG",
+    "Slate",
+    "SlateCore",
+    "EnhancedInput" //
+});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
-        // VisualStudioTools ����� ���ܽ�Ű�� �ڵ�
+        // VisualStudioTools ����� ���ܽ�Ű�� �ڵ�
         if (Target.bBuildEditor)
         {
             PrivateDependencyModuleNames.Remove("VisualStudioTools");
