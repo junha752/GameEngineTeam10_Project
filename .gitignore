@@ -25,3 +25,12 @@
 *.dll
 *.app
 *.dylib
+
+# 썸네일
+/Saved/AutoScreenshot.png
+
+# 언리얼 에디터 개인 설정
+/Saved/Config/Windows/EditorPerProjectUserSettings.ini
+
+# 제어되지 않은 변경 리스트(서버에 submit되지 않거나 로컬에서만 변경된 상태의 파일 정보를 저장)
+/Saved/SourceControl/UncontrolledChangelists.json
