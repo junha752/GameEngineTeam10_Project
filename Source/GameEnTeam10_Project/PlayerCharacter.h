@@ -108,7 +108,7 @@ protected:
 	void Lock(const FInputActionValue& Value);
 	void MouseLook(const FInputActionValue& Value);
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

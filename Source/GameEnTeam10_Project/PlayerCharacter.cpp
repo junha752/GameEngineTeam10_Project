@@ -15,7 +15,7 @@
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -40,7 +40,7 @@ APlayerCharacter::APlayerCharacter()
 		MOVE_ACTION(TEXT("/ Script / EnhancedInput.InputAction'/Game/Input/Action/IA_Move.IA_Move' "));
 	if (MOVE_ACTION.Object) {
 		MoveAction = MOVE_ACTION.Object;
-			}
+	}
 	static ConstructorHelpers::FObjectFinder<UInputAction>
 		LOOK_ACTION(TEXT("/ Script / EnhancedInput.InputAction'/Game/Input/Action/IA_Look.IA_Look' "));
 	if (LOOK_ACTION.Object) {
@@ -93,7 +93,7 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	Spawner = Cast<AMyActorSpawner>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyActorSpawner::StaticClass()));
-		// Ä³¸¯ÅÍÀÇ Ä¸½¶ ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
+	// Ä³¸¯ÅÍÀÇ Ä¸½¶ ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
 
 	UStaticMeshComponent* Sword = SwordMesh;
 	if (Sword)
@@ -110,45 +110,45 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-		if (USkeletalMeshComponent* Mymesh = GetMesh()) {
-			if (auto animInst = Cast<UPlayerCharacterAnimInstance>(Mymesh->GetAnimInstance())) {
-				animInst->Speed = GetCharacterMovement()->Velocity.Size2D();
-				FVector Velocity = this->GetVelocity();
-				FRotator BaseRotation = this->GetActorRotation();
-				if (Velocity.IsNearlyZero()) { animInst->Direction = 0; }
-				animInst->Direction = animInst->CalculateDirection(Velocity, BaseRotation);
-				}
+	if (USkeletalMeshComponent* Mymesh = GetMesh()) {
+		if (auto animInst = Cast<UPlayerCharacterAnimInstance>(Mymesh->GetAnimInstance())) {
+			animInst->Speed = GetCharacterMovement()->Velocity.Size2D();
+			FVector Velocity = this->GetVelocity();
+			FRotator BaseRotation = this->GetActorRotation();
+			if (Velocity.IsNearlyZero()) { animInst->Direction = 0; }
+			animInst->Direction = animInst->CalculateDirection(Velocity, BaseRotation);
+		}
 
-			}
-		if (isLockOn ) {
-			FRotator ResultRotator = UKismetMathLibrary::FindLookAtRotation(GetFollowCamera()->GetComponentLocation() , TargetActor->GetActorLocation());
-			if (Cast<APlayerCharacter>(TargetActor)->isDead == false)
-			{
-				ResultRotator.Pitch -= 15.f;
-				ResultRotator.Pitch = FMath::ClampAngle(ResultRotator.Pitch, -30.f, 70.f);
-				GetController()->SetControlRotation(ResultRotator);
-			}
-			else {
-				isLockOn = false;
-				bUseControllerRotationYaw = false;
-				GetCharacterMovement()->bOrientRotationToMovement = true;
-				Spawner->DestroyLockOnWidget();
-			}
+	}
+	if (isLockOn) {
+		FRotator ResultRotator = UKismetMathLibrary::FindLookAtRotation(GetFollowCamera()->GetComponentLocation(), TargetActor->GetActorLocation());
+		if (Cast<APlayerCharacter>(TargetActor)->isDead == false)
+		{
+			ResultRotator.Pitch -= 15.f;
+			ResultRotator.Pitch = FMath::ClampAngle(ResultRotator.Pitch, -30.f, 70.f);
+			GetController()->SetControlRotation(ResultRotator);
 		}
 		else {
-			FRotator NormalRotator = GetController()->GetControlRotation();
-			NormalRotator.Pitch = FMath::ClampAngle(NormalRotator.Pitch, -30.0f, 30.0f);
-			GetController()->SetControlRotation(NormalRotator);
+			isLockOn = false;
+			bUseControllerRotationYaw = false;
+			GetCharacterMovement()->bOrientRotationToMovement = true;
+			Spawner->DestroyLockOnWidget();
 		}
-		if (!isUsingStamina) { 
-			Stamina = FMath::Clamp(Stamina + 80 * DeltaTime, 0.f, 500.f); 
+	}
+	else {
+		FRotator NormalRotator = GetController()->GetControlRotation();
+		NormalRotator.Pitch = FMath::ClampAngle(NormalRotator.Pitch, -30.0f, 30.0f);
+		GetController()->SetControlRotation(NormalRotator);
+	}
+	if (!isUsingStamina) {
+		Stamina = FMath::Clamp(Stamina + 80 * DeltaTime, 0.f, 500.f);
+	}
+	else if (isDashing) {
+		Stamina = FMath::Clamp(Stamina - 80 * DeltaTime, 0.f, 500.f);
+		if (Stamina < 10.f) {
+			StopDash();
 		}
-		else if(isDashing) {
-			Stamina = FMath::Clamp(Stamina - 80 * DeltaTime, 0.f, 500.f);
-			if (Stamina < 10.f) {
-				StopDash();
-			}
-		}
+	}
 }
 
 // Called to bind functionality to input
@@ -209,7 +209,7 @@ void APlayerCharacter::MouseLook(const FInputActionValue& Value)
 	{
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
-		AddControllerPitchInput( - LookAxisVector.Y);
+		AddControllerPitchInput(-LookAxisVector.Y);
 	}
 
 }
@@ -246,12 +246,13 @@ void APlayerCharacter::Dodge(const FInputActionValue& Value) {
 }
 
 void APlayerCharacter::Lock(const FInputActionValue& Value) {
-	if (isLockOn) { 
-		isLockOn = false; 
+	if (isLockOn) {
+		isLockOn = false;
 		bUseControllerRotationYaw = false;
 		GetCharacterMovement()->bOrientRotationToMovement = true;
 		Spawner->DestroyLockOnWidget();
-		return; }
+		return;
+	}
 	FVector StartLocation = GetFollowCamera()->GetComponentLocation();
 	StartLocation.Z += 30;
 	FVector EndLocation = StartLocation + GetFollowCamera()->GetForwardVector() * LockTraceDistance;
