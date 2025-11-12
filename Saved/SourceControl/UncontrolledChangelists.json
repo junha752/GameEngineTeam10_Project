@@ -5,6 +5,11 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
+				"C:/Users/User/Desktop/adf/Content/UI/WBP_TurnUI.uasset",
+				"C:/Users/User/Desktop/adf/Content/__ExternalActors__/ThirdPeson/TurnLv/C/Y7/J2RDV8XORU1UVY5I664975.uasset",
+				"C:/Users/User/Desktop/adf/Content/__ExternalActors__/ThirdPeson/TurnLv/D/QX/6RAO0T7ZK9Y9ZED89IXBNP.uasset",
+				"C:/Users/User/Desktop/adf/Content/__ExternalActors__/ThirdPeson/TurnLv/0/SL/QRI1EOBJJ236N854QJ71JP.uasset",
+				"C:/Users/User/Desktop/adf/Content/UI/WBP_ShopUI.uasset",
 				"C:/Users/waste/Desktop/adf/GameEngineTeam10_Project/Content/ThirdPeson/Blueprints/BP_PlayerCharacter.uasset",
 				"C:/Users/waste/Desktop/adf/GameEngineTeam10_Project/Content/Input/Action/IA_ToggleUI.uasset",
 				"C:/Users/waste/Desktop/adf/GameEngineTeam10_Project/Content/Input/IMC_Default.uasset",
