@@ -1,0 +1,9 @@
+Breadcrumbs 'Parallel'
+ - Capture Sky Materials
+ - Capture Face=0
+ - RenderSky StartFace=0 EndFace=2
+ - CaptureConvolveSkyEnvMap
+ - Scene
+ - RenderGraphExecute - /ViewFamilies
+ - SceneRender - ViewFamilies
+ - Frame 86889
