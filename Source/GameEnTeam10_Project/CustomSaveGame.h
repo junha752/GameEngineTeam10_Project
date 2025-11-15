@@ -30,8 +30,4 @@ public:
 	int Strength;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Saved Player State")
 	int Armer;
-	
-	UFUNCTION(BlueprintCallable, Category = "SaveGame")int GetCurrentStage() const;
-	UFUNCTION(BlueprintCallable, Category = "SaveGame")void SetCurrentStage(int Stage);
-
 };
