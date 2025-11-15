@@ -2,13 +2,3 @@
 
 
 #include "CustomSaveGame.h"
-
-int UCustomSaveGame::GetCurrentStage() const
-{
-	return CurrentStage;
-}
-
-void UCustomSaveGame::SetCurrentStage(int Stage)
-{
-	CurrentStage = Stage;
-}
